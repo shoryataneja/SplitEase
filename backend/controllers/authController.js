@@ -50,7 +50,51 @@ const signup = async (req, res) => {
   }
 };
 
+
+// login controller
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // 1. check if fields exist
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
+
+    // 2. check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    // 3. compare passwords
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    // 4. success response
+    res.status(200).json({
+      message: "Login successful",
+      userId: user._id,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+
 module.exports = {
   testAuth,
   signup,
+  login
 };
