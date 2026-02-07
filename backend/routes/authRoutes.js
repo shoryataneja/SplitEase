@@ -1,18 +1,12 @@
-// const express = require('express');
-
-// const router = express.Router();
-
-// router.get("/test",(req,res)=>{
-//     res.send("Auth route is working")
-// });
-
-// module.exports = router;
-
 const express = require("express");
-const { testAuth } = require("../controllers/authController");
+const { testAuth, signup } = require("../controllers/authController");
 
 const router = express.Router();
 
+// test route (temporary)
 router.get("/test", testAuth);
+
+// signup route
+router.post("/signup", signup);
 
 module.exports = router;
