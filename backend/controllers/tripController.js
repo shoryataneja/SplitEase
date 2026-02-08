@@ -51,7 +51,64 @@ const getMyTrips = async (req, res) => {
 };
 
 
+const User = require("../models/User");
+
+// add member to trip
+const addMemberToTrip = async (req, res) => {
+  try {
+    const { tripId } = req.params;
+    const { email } = req.body;
+
+    // 1. validate input
+    if (!email) {
+      return res.status(400).json({
+        message: "Email is required",
+      });
+    }
+
+    // 2. find user to add
+    const userToAdd = await User.findOne({ email });
+    if (!userToAdd) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // 3. find trip
+    const trip = await Trip.findById(tripId);
+    if (!trip) {
+      return res.status(404).json({
+        message: "Trip not found",
+      });
+    }
+
+    // 4. check if user already a member
+    if (trip.members.includes(userToAdd._id)) {
+      return res.status(400).json({
+        message: "User already in trip",
+      });
+    }
+
+    // 5. add member
+    trip.members.push(userToAdd._id);
+    await trip.save();
+
+    res.status(200).json({
+      message: "Member added successfully",
+      trip,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+
+
 module.exports = {
   createTrip,
-  getMyTrips
+  getMyTrips,
+  addMemberToTrip
 };
