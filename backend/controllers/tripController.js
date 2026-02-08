@@ -32,6 +32,26 @@ const createTrip = async (req, res) => {
   }
 };
 
+// get trips for logged-in user
+const getMyTrips = async (req, res) => {
+  try {
+    const trips = await Trip.find({
+      members: req.user._id,
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      trips,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+
 module.exports = {
   createTrip,
+  getMyTrips
 };
