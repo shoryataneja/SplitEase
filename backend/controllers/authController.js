@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+
 
 // test controller (temporary)
 const testAuth = (req, res) => {
@@ -79,11 +81,20 @@ const login = async (req, res) => {
       });
     }
 
-    // 4. success response
+    // 4. generate token
+    const token = jwt.sign(
+    { id: user._id },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+    );
+
+    // 5. success response
     res.status(200).json({
-      message: "Login successful",
-      userId: user._id,
+    message: "Login successful",
+    token,
+    userId: user._id,
     });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({
