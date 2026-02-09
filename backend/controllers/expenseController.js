@@ -54,6 +54,55 @@ const addExpense = async (req, res) => {
   }
 };
 
+
+const getTripBalances = async (req, res) => {
+  try {
+    const { tripId } = req.params;
+
+    // 1. get all expenses of this trip
+    const expenses = await Expense.find({ trip: tripId })
+      .populate("paidBy", "name")
+      .populate("splitAmong", "name");
+
+    const balances = {};
+
+    // 2. calculate balances
+    expenses.forEach((expense) => {
+      const splitCount = expense.splitAmong.length;
+      const splitAmount = expense.amount / splitCount;
+
+      // add paid amount
+      const paidById = expense.paidBy._id.toString();
+      balances[paidById] = balances[paidById] || {
+        name: expense.paidBy.name,
+        balance: 0,
+      };
+      balances[paidById].balance += expense.amount;
+
+      // subtract owed amount
+      expense.splitAmong.forEach((user) => {
+        const userId = user._id.toString();
+        balances[userId] = balances[userId] || {
+          name: user.name,
+          balance: 0,
+        };
+        balances[userId].balance -= splitAmount;
+      });
+    });
+
+    res.status(200).json({
+      balances,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+
 module.exports = {
   addExpense,
+  getTripBalances
 };
