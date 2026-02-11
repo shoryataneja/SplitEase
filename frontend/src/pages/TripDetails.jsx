@@ -7,6 +7,8 @@ function TripDetails() {
 
   const [expenses, setExpenses] = useState([]);
   const [balances, setBalances] = useState({});
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
 
   const fetchTripData = async () => {
@@ -29,12 +31,56 @@ function TripDetails() {
     fetchTripData();
   }, [tripId]);
 
+  const handleAddExpense = async (e) => {
+    e.preventDefault();
+
+    if (!description || !amount) return;
+
+    try {
+      await API.post("/expenses", {
+        description,
+        amount: Number(amount),
+        tripId,
+      });
+
+      setDescription("");
+      setAmount("");
+
+      fetchTripData(); // refresh expenses + balances
+    } catch (err) {
+      setError("Failed to add expense");
+    }
+  };
+
   return (
     <div>
       <h2>Trip Details</h2>
 
       {error && <p>{error}</p>}
 
+      {/* Add Expense Form */}
+      <h3>Add Expense</h3>
+      <form onSubmit={handleAddExpense}>
+        <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <br />
+
+        <input
+          type="number"
+          placeholder="Amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+        <br />
+
+        <button type="submit">Add Expense</button>
+      </form>
+
+      {/* Expenses List */}
       <h3>Expenses</h3>
       {expenses.length === 0 ? (
         <p>No expenses yet</p>
@@ -48,6 +94,7 @@ function TripDetails() {
         </ul>
       )}
 
+      {/* Balances */}
       <h3>Balances</h3>
       {Object.keys(balances).length === 0 ? (
         <p>No balances yet</p>
@@ -55,7 +102,7 @@ function TripDetails() {
         <ul>
           {Object.values(balances).map((user, index) => (
             <li key={index}>
-              {user.name}: {user.balance}
+              {user.name}: {user.balance.toFixed(2)}
             </li>
           ))}
         </ul>
