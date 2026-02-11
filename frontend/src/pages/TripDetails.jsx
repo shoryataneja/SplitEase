@@ -12,7 +12,7 @@ function TripDetails() {
       try {
         const res = await API.get(`/expenses/trip/${tripId}/balances`);
         setBalances(res.data.balances);
-      } catch (err) {
+      } catch  {
         setError("Failed to load balances");
       }
     };
