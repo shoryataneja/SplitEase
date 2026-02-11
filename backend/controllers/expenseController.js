@@ -101,8 +101,25 @@ const getTripBalances = async (req, res) => {
   }
 };
 
+const getExpensesByTrip = async (req, res) => {
+  try {
+    const { tripId } = req.params;
+
+    const expenses = await Expense.find({ trip: tripId })
+      .populate("paidBy", "name")
+      .populate("splitAmong", "name");
+
+    res.status(200).json({ expenses });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 
 module.exports = {
   addExpense,
-  getTripBalances
+  getTripBalances,
+  getExpensesByTrip
 };
