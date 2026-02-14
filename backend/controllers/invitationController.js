@@ -79,12 +79,22 @@ const sendInvitation = async (req, res) => {
 // 2️⃣ Get My Invitations
 const getMyInvitations = async (req, res) => {
   try {
-    // logic will go here
+    const invitations = await Invitation.find({
+      to: req.user._id,
+      status: "pending",
+    })
+      .populate("trip", "name")
+      .populate("from", "name email");
+
+    res.status(200).json({
+      invitations,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 // 3️⃣ Accept Invitation
