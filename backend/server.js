@@ -6,6 +6,8 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const tripRoutes = require("./routes/tripRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
+const invitationRoutes = require("./routes/invitationRoutes");
+
 
 const app = express();
 
@@ -19,6 +21,9 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/trips", tripRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/invitations", invitationRoutes);
+
+
 
 app.get("/", (req, res) => {
   res.send("SplitEase backend is running");
