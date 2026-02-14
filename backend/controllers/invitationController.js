@@ -100,12 +100,53 @@ const getMyInvitations = async (req, res) => {
 // 3️⃣ Accept Invitation
 const acceptInvitation = async (req, res) => {
   try {
-    // logic will go here
+    const { id } = req.params;
+
+    // 1️⃣ Find invitation
+    const invitation = await Invitation.findById(id);
+
+    if (!invitation) {
+      return res.status(404).json({
+        message: "Invitation not found",
+      });
+    }
+
+    // 2️⃣ Ensure only invited user can accept
+    if (!invitation.to.equals(req.user._id)) {
+      return res.status(403).json({
+        message: "Not authorized to accept this invitation",
+      });
+    }
+
+    // 3️⃣ Ensure still pending
+    if (invitation.status !== "pending") {
+      return res.status(400).json({
+        message: "Invitation already processed",
+      });
+    }
+
+    // 4️⃣ Add user to trip
+    const trip = await Trip.findById(invitation.trip);
+
+    if (!trip.members.includes(req.user._id)) {
+      trip.members.push(req.user._id);
+      await trip.save();
+    }
+
+    // 5️⃣ Update invitation status
+    invitation.status = "accepted";
+    await invitation.save();
+
+    res.status(200).json({
+      message: "Invitation accepted",
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 // 4️⃣ Reject Invitation
