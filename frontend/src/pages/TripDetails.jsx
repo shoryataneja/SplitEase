@@ -26,7 +26,7 @@ function TripDetails() {
         `/expenses/trip/${tripId}/balances`
       );
       setBalances(balancesRes.data.balances);
-    } catch (err) {
+    } catch  {
       setError("Failed to load trip data");
     }
   };
@@ -52,7 +52,7 @@ function TripDetails() {
       setAmount("");
 
       fetchTripData(); // refresh UI
-    } catch (err) {
+    } catch  {
       setError("Failed to add expense");
     }
   };
@@ -72,7 +72,7 @@ function TripDetails() {
       setMemberEmail("");
 
       fetchTripData(); // refresh data after adding member
-    } catch (err) {
+    } catch  {
       setMemberMessage("Failed to add member");
     }
   };
