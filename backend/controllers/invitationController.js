@@ -152,12 +152,45 @@ const acceptInvitation = async (req, res) => {
 // 4️⃣ Reject Invitation
 const rejectInvitation = async (req, res) => {
   try {
-    // logic will go here
+    const { id } = req.params;
+
+    // 1️⃣ Find invitation
+    const invitation = await Invitation.findById(id);
+
+    if (!invitation) {
+      return res.status(404).json({
+        message: "Invitation not found",
+      });
+    }
+
+    // 2️⃣ Ensure only invited user can reject
+    if (!invitation.to.equals(req.user._id)) {
+      return res.status(403).json({
+        message: "Not authorized to reject this invitation",
+      });
+    }
+
+    // 3️⃣ Ensure still pending
+    if (invitation.status !== "pending") {
+      return res.status(400).json({
+        message: "Invitation already processed",
+      });
+    }
+
+    // 4️⃣ Update status to rejected
+    invitation.status = "rejected";
+    await invitation.save();
+
+    res.status(200).json({
+      message: "Invitation rejected",
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 module.exports = {
