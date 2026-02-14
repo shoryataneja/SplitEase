@@ -11,6 +11,10 @@ function TripDetails() {
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
 
+  const [memberEmail, setMemberEmail] = useState("");
+  const [memberMessage, setMemberMessage] = useState("");
+
+  // 🔹 Fetch expenses + balances
   const fetchTripData = async () => {
     try {
       setError("");
@@ -31,6 +35,7 @@ function TripDetails() {
     fetchTripData();
   }, [tripId]);
 
+  // 🔹 Add Expense
   const handleAddExpense = async (e) => {
     e.preventDefault();
 
@@ -46,9 +51,29 @@ function TripDetails() {
       setDescription("");
       setAmount("");
 
-      fetchTripData(); // refresh expenses + balances
+      fetchTripData(); // refresh UI
     } catch (err) {
       setError("Failed to add expense");
+    }
+  };
+
+  // 🔹 Add Member
+  const handleAddMember = async (e) => {
+    e.preventDefault();
+
+    if (!memberEmail) return;
+
+    try {
+      const res = await API.post(`/trips/${tripId}/members`, {
+        email: memberEmail,
+      });
+
+      setMemberMessage(res.data.message);
+      setMemberEmail("");
+
+      fetchTripData(); // refresh data after adding member
+    } catch (err) {
+      setMemberMessage("Failed to add member");
     }
   };
 
@@ -58,7 +83,23 @@ function TripDetails() {
 
       {error && <p>{error}</p>}
 
-      {/* Add Expense Form */}
+      {/* 🔥 Add Member Section */}
+      <h3>Add Member</h3>
+      <form onSubmit={handleAddMember}>
+        <input
+          type="email"
+          placeholder="Member email"
+          value={memberEmail}
+          onChange={(e) => setMemberEmail(e.target.value)}
+        />
+        <button type="submit">Add Member</button>
+      </form>
+
+      {memberMessage && <p>{memberMessage}</p>}
+
+      <hr />
+
+      {/* 🔥 Add Expense Section */}
       <h3>Add Expense</h3>
       <form onSubmit={handleAddExpense}>
         <input
@@ -80,7 +121,9 @@ function TripDetails() {
         <button type="submit">Add Expense</button>
       </form>
 
-      {/* Expenses List */}
+      <hr />
+
+      {/* 🔥 Expenses List */}
       <h3>Expenses</h3>
       {expenses.length === 0 ? (
         <p>No expenses yet</p>
@@ -94,7 +137,9 @@ function TripDetails() {
         </ul>
       )}
 
-      {/* Balances */}
+      <hr />
+
+      {/* 🔥 Balances */}
       <h3>Balances</h3>
       {Object.keys(balances).length === 0 ? (
         <p>No balances yet</p>
