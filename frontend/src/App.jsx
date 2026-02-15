@@ -4,6 +4,8 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import TripDetails from "./pages/TripDetails";
+import Invitations from "./pages/Invitations";
+
 
 
 function App() {
@@ -24,6 +26,15 @@ function App() {
       </PrivateRoute>
     }
   />
+  <Route
+  path="/invitations"
+  element={
+    <PrivateRoute>
+      <Invitations />
+    </PrivateRoute>
+  }
+/>
+
 
   <Route
     path="/trips/:tripId"

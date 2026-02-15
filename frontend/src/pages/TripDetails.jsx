@@ -11,9 +11,6 @@ function TripDetails() {
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
 
-  const [memberEmail, setMemberEmail] = useState("");
-  const [memberMessage, setMemberMessage] = useState("");
-
   // 🔹 Fetch expenses + balances
   const fetchTripData = async () => {
     try {
@@ -26,7 +23,7 @@ function TripDetails() {
         `/expenses/trip/${tripId}/balances`
       );
       setBalances(balancesRes.data.balances);
-    } catch  {
+    } catch {
       setError("Failed to load trip data");
     }
   };
@@ -51,29 +48,9 @@ function TripDetails() {
       setDescription("");
       setAmount("");
 
-      fetchTripData(); // refresh UI
-    } catch  {
+      fetchTripData();
+    } catch {
       setError("Failed to add expense");
-    }
-  };
-
-  // 🔹 Add Member
-  const handleAddMember = async (e) => {
-    e.preventDefault();
-
-    if (!memberEmail) return;
-
-    try {
-      const res = await API.post(`/trips/${tripId}/members`, {
-        email: memberEmail,
-      });
-
-      setMemberMessage(res.data.message);
-      setMemberEmail("");
-
-      fetchTripData(); // refresh data after adding member
-    } catch  {
-      setMemberMessage("Failed to add member");
     }
   };
 
@@ -82,22 +59,6 @@ function TripDetails() {
       <h2>Trip Details</h2>
 
       {error && <p>{error}</p>}
-
-      {/* 🔥 Add Member Section */}
-      <h3>Add Member</h3>
-      <form onSubmit={handleAddMember}>
-        <input
-          type="email"
-          placeholder="Member email"
-          value={memberEmail}
-          onChange={(e) => setMemberEmail(e.target.value)}
-        />
-        <button type="submit">Add Member</button>
-      </form>
-
-      {memberMessage && <p>{memberMessage}</p>}
-
-      <hr />
 
       {/* 🔥 Add Expense Section */}
       <h3>Add Expense</h3>

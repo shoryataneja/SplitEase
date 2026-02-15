@@ -15,6 +15,6 @@ router.post("/", protect, createTrip);
 router.get("/", protect, getMyTrips);
 
 // add member to trip (protected)
-router.post("/:tripId/members", protect, addMemberToTrip);
+// router.post("/:tripId/members", protect, addMemberToTrip);
 
 module.exports = router;
