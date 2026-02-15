@@ -10,6 +10,9 @@ function TripDetails() {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
+  const [inviteEmail, setInviteEmail] = useState("");
+const [inviteMessage, setInviteMessage] = useState("");
+
 
   // 🔹 Fetch expenses + balances
   const fetchTripData = async () => {
@@ -54,11 +57,47 @@ function TripDetails() {
     }
   };
 
+  const handleSendInvite = async (e) => {
+  e.preventDefault();
+
+  if (!inviteEmail) return;
+
+  try {
+    const res = await API.post("/invitations", {
+      tripId,
+      email: inviteEmail,
+    });
+
+    setInviteMessage(res.data.message);
+    setInviteEmail("");
+  } catch (err) {
+    setInviteMessage("Failed to send invitation");
+  }
+};
+
+
   return (
     <div>
       <h2>Trip Details</h2>
 
       {error && <p>{error}</p>}
+
+
+      <h3>Send Invitation</h3>
+<form onSubmit={handleSendInvite}>
+  <input
+    type="email"
+    placeholder="User email"
+    value={inviteEmail}
+    onChange={(e) => setInviteEmail(e.target.value)}
+  />
+  <button type="submit">Send Invite</button>
+</form>
+
+{inviteMessage && <p>{inviteMessage}</p>}
+
+<hr />
+
 
       {/* 🔥 Add Expense Section */}
       <h3>Add Expense</h3>

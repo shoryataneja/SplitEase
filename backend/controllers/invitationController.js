@@ -23,11 +23,16 @@ const sendInvitation = async (req, res) => {
     }
 
     // 2️⃣ Check if requester is a member
-    if (!trip.members.includes(req.user._id)) {
-      return res.status(403).json({
-        message: "You are not a member of this trip",
-      });
-    }
+    const isMember = trip.members.some(member =>
+  member.equals(req.user._id)
+);
+
+if (!isMember) {
+  return res.status(403).json({
+    message: "You are not a member of this trip",
+  });
+}
+
 
     // 3️⃣ Find user by email
     const userToInvite = await User.findOne({ email });
