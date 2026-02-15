@@ -70,7 +70,7 @@ const [inviteMessage, setInviteMessage] = useState("");
 
     setInviteMessage(res.data.message);
     setInviteEmail("");
-  } catch (err) {
+  } catch {
     setInviteMessage("Failed to send invitation");
   }
 };
