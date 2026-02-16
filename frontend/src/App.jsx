@@ -5,6 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import TripDetails from "./pages/TripDetails";
 import Invitations from "./pages/Invitations";
+import Landing from "./pages/Landing";
+
 
 
 
@@ -12,7 +14,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-  <Route path="/" element={<Navigate to="/login" />} />
+  <Route path="/" element={<Landing />} />
+
 
   <Route path="/login" element={<Login />} />
   
@@ -53,3 +56,5 @@ function App() {
 }
 
 export default App;
+
+
