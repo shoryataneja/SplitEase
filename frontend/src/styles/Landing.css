@@ -1,57 +1,102 @@
-/* Landing.css */
-.landing-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f8f9fa;
-  text-align: center;
-  padding: 20px;
-}
-
-.landing-content {
-  max-width: 500px;
-  width: 100%;
-}
-
-.landing-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+.landing-page {
+  min-height: 100vh;
+  background: #f5f6f7;
+  font-family: 'Inter', sans-serif;
   color: #222;
 }
 
-.landing-tagline {
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 30px;
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 100px;
 }
 
-.landing-buttons {
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  color: #178f87;
+}
+
+.nav-links a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.signup-btn {
+  background: #178f87;
+  color: white !important;
+  padding: 10px 22px;
+  border-radius: 6px;
+}
+
+/* HERO */
+.hero {
+  min-height: 85vh;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 120px;
+  gap: 80px;
+}
+
+/* LEFT */
+.hero-left {
+  flex: 1;
+}
+
+.hero-left h1 {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 35px;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.feature-list li {
+  font-size: 20px;
+  margin-bottom: 18px;
+  position: relative;
+  padding-left: 35px;
+  color: #444;
+}
+
+/* Green check bullets */
+.feature-list li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #178f87;
+  font-weight: bold;
+}
+
+.primary-btn {
+  background: #178f87;
+  color: white;
+  padding: 16px 38px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* RIGHT */
+.hero-right {
+  flex: 1;
+  display: flex;
   justify-content: center;
 }
 
-.btn {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  min-width: 120px;
-}
-
-.btn-primary {
-  background-color: #222;
-  color: white;
-}
-
-.btn-secondary {
-  background-color: #555;
-  color: white;
-}
-
-.btn:hover {
-  opacity: 0.9;
+.hero-right img {
+  width: 480px;
+  max-width: 100%;
 }
