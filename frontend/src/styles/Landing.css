@@ -2,7 +2,7 @@
   height: 100vh;
   overflow: hidden;
   position: relative;
-  background: #f5f6f7;
+  background: white;
   font-family: 'Inter', sans-serif;
   color: #222;
 }
@@ -104,6 +104,10 @@
   flex: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
+  background: white;     /* match GIF background */
+  padding: 40px;
+  border-radius: 12px;
 }
 
 .hero-right img {
