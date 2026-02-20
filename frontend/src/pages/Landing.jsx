@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../styles/global.css";
 import "../styles/Landing.css";
 import rocket from "/rocket_6172512.gif";
 
@@ -17,6 +18,7 @@ function Landing() {
 
       {/* Hero Section */}
       <section className="hero">
+      <div className="hero-content">
 
         {/* LEFT SIDE */}
         <div className="hero-left">
@@ -40,7 +42,7 @@ function Landing() {
         <div className="hero-right">
           <img src={rocket} alt="SplitEase Illustration" />
         </div>
-
+       </div>
       </section>
         <div className="bottom-wave">
   <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
