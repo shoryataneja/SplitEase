@@ -43,7 +43,15 @@ function Landing() {
         </div>
 
       </section>
-
+        <div className="bottom-wave">
+  <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+    <path
+      fill="#178f87"
+      fillOpacity="1"
+      d="M0,224L60,208C120,192,240,160,360,154.7C480,149,600,171,720,186.7C840,203,960,213,1080,192C1200,171,1320,117,1380,90.7L1440,64L1440,320L0,320Z"
+    ></path>
+  </svg>
+</div>
     </div>
   );
 }

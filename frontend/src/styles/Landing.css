@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 100px;
+  padding: 18px 100px;
 }
 
 .logo {
@@ -35,11 +35,11 @@
 
 /* HERO */
 .hero {
-  min-height: 85vh;
+  min-height: calc(100vh - 70px);  
   display: flex;
-  align-items: center;
+  align-items: flex-start;       
   justify-content: space-between;
-  padding: 0 120px;
+  padding: 60px 120px 0 120px;    
   gap: 80px;
 }
 
@@ -99,4 +99,19 @@
 .hero-right img {
   width: 480px;
   max-width: 100%;
+}
+
+/* WAVE */
+.bottom-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+}
+
+.bottom-wave svg {
+  display: block;
+  width: 100%;
+  height: 200px;
 }
