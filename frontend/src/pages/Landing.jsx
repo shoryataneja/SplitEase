@@ -21,8 +21,7 @@ function Landing() {
         {/* LEFT SIDE */}
         <div className="hero-left">
           <h1>
-            Splitting expenses has <br />
-            never been easier.
+            Split Expenses. Not Friendships
           </h1>
 
           <ul className="feature-list">
