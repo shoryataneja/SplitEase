@@ -37,14 +37,11 @@
 
 /* HERO */
 .hero {
-  height: calc(100vh - 70px); /* navbar height */
+  height: calc(100vh - 60px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;   /* push content upward */
   justify-content: space-between;
-  gap: 80px;
-  padding: 0;
-  width: 100%;
-
+  padding-top: 60px;         /* controlled spacing */
 }
 .hero-content {
   max-width: 1300px;
