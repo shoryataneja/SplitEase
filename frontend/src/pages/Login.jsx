@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import "../styles/login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -24,33 +25,60 @@ function Login() {
     }
   };
 
-  return (
-    <div>
-      <h2>Login</h2>
+return (
+  <div className="login-page">
+    <div className="login-wrapper">
+      <div className="login-card">
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
+        <div className="login-icon">
+          <img src="/rocket_6172512.gif" alt="Rocket" />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
+        <h2>Welcome Back</h2>
+        <p className="subtitle">
+          Sign in to manage your shared expenses.
+        </p>
 
-        <button type="submit">Login</button>
-      </form>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-      {message && <p>{message}</p>}
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="login-btn">
+            Sign In
+          </button>
+        </form>
+
+        {message && (
+          <p className="login-message">
+            {message}
+          </p>
+        )}
+
+        <p className="signup-link">
+          Don’t have an account? <a href="/signup">Sign up</a>
+        </p>
+
+      </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default Login;

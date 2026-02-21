@@ -1,0 +1,110 @@
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2f3, #d9e4f5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 45px 40px;
+  border-radius: 18px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* Rocket Icon */
+.login-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-icon img {
+  width: 100%;
+  height: auto;
+}
+
+/* Title */
+.login-card h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  border-color: #178f87;
+  box-shadow: 0 0 0 3px rgba(23, 143, 135, 0.15);
+}
+
+/* Button */
+.login-btn {
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #178f87, #00b4d8);
+  color: white;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Message */
+.login-message {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #178f87;
+}
+
+/* Signup link */
+.signup-link {
+  margin-top: 25px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.signup-link a {
+  color: #178f87;
+  text-decoration: none;
+  font-weight: 600;
+}
