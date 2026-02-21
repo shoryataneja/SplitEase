@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import { useNavigate } from "react-router-dom";
 import "../styles/Signup.css";
 import "../styles/global.css";
 
@@ -9,6 +10,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +22,8 @@ function Signup() {
         password,
       });
 
-      setMessage(res.data.message);
+      localStorage.setItem("token", res.data.token);
+navigate("/dashboard");
     } catch (error) {
       setMessage(error.response?.data?.message || "Signup failed");
     }
