@@ -73,7 +73,7 @@ return (
               className="eye-toggle"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? "👁️" : "👁️"}
             </span>
           </div>
 
