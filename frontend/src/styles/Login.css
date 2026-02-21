@@ -108,3 +108,31 @@
   text-decoration: none;
   font-weight: 600;
 }
+
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 45px;
+}
+
+.eye-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.eye-toggle:hover {
+  opacity: 1;
+}
+
+.signup-page .password-wrapper input {
+  padding-right: 60px;
+  box-sizing: border-box;
+}

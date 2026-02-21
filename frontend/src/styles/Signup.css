@@ -68,9 +68,10 @@
   transition: all 0.2s ease;
 }
 
-.input-group input:focus {
-  border-color: #178f87;
-  box-shadow: 0 0 0 3px rgba(23, 143, 135, 0.15);
+.signup-page .input-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
 }
 
 /* Button */
@@ -112,16 +113,36 @@
   font-weight: 600;
 }
 
-.signup-icon {
+/* .signup-icon {
   width: 80px;
   height: 80px;
   margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .signup-icon img {
   width: 100%;
   height: auto;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 60px;
+}
+
+.eye-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #178f87;
+  user-select: none;
 }

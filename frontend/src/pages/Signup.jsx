@@ -8,6 +8,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,14 +60,21 @@ return (
             />
           </div>
 
-          <div className="input-group">
+          <div className="input-group password-wrapper">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Create Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+
+            <span
+              className="eye-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </span>
           </div>
 
           <button type="submit" className="signup-btn">

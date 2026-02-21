@@ -6,7 +6,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,15 +51,21 @@ return (
             />
           </div>
 
-          <div className="input-group">
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+<div className="input-group password-wrapper">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter your password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+
+  <span
+    className="eye-toggle"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? "👁️" : "👁️"}
+  </span>
+</div>
 
           <button type="submit" className="login-btn">
             Sign In
