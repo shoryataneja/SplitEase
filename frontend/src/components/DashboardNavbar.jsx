@@ -49,9 +49,10 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "22px 80px", // slightly reduced from 100px
+    padding: "20px 80px",
     backgroundColor: "white",
     borderBottom: "1px solid #eee",
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   },
 
   logoContainer: {
@@ -62,20 +63,21 @@ const styles = {
   },
 
   logoText: {
-  fontSize: "32px",
-  fontWeight: "800",
-  letterSpacing: "-0.5px",
+    fontSize: "28px",
+    fontWeight: "700",
+    fontFamily: "'Playfair Display', Georgia, serif",
+    letterSpacing: "-0.5px",
     color: "#1F8A8A",
   },
 
   logoIcon: {
-    width: "34px",             // slightly bigger rocket
-    height: "34px",
+    width: "30px",
+    height: "30px",
   },
 
   links: {
     display: "flex",
-    gap: "30px",               // slightly tighter spacing
+    gap: "32px",
     alignItems: "center",
   },
 
@@ -83,7 +85,8 @@ const styles = {
     textDecoration: "none",
     color: "#333",
     fontWeight: "500",
-    fontSize: "22px",
+    fontSize: "14px",
+    transition: "color 0.2s",
   },
 
   logout: {
@@ -91,8 +94,9 @@ const styles = {
     border: "none",
     color: "#d64545",
     fontWeight: "600",
-    fontSize: "20px",
+    fontSize: "14px",
     cursor: "pointer",
+    transition: "color 0.2s",
   },
 };
 
