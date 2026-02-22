@@ -6,7 +6,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import TripDetails from "./pages/TripDetails";
 import Invitations from "./pages/Invitations";
 import Landing from "./pages/Landing";
-
+import Trips from "./pages/Trips";
+import Profile from "./pages/Profile";
 
 
 
@@ -38,6 +39,14 @@ function App() {
   }
 />
 
+<Route
+  path="/trips"
+  element={
+    <PrivateRoute>
+      <Trips />
+    </PrivateRoute>
+  }
+/>
 
   <Route
     path="/trips/:tripId"
@@ -47,9 +56,18 @@ function App() {
       </PrivateRoute>
     }
   />
+  <Route
+  path="/profile"
+  element={
+    <PrivateRoute>
+      <Profile />
+    </PrivateRoute>
+  }
+/>
+    
 </Routes>
 
-      
+  
 
     </BrowserRouter>
   );

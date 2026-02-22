@@ -1,0 +1,126 @@
+.dashboard-container {
+  padding: 60px 100px;
+  background: #f5f6f7;
+  min-height: 100vh;
+}
+
+/* TOP SECTION */
+.dashboard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 80px;
+  margin-bottom: 70px;
+}
+
+/* CREATE SECTION */
+.create-section {
+  flex: 1;
+}
+
+.create-section h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.create-section form {
+  display: flex;
+  gap: 15px;
+}
+
+.create-section input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+}
+
+.create-section button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #178f87;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* BALANCE SECTION */
+.balance-section {
+  width: 320px;
+}
+
+.balance-section h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+
+.balance-row span:last-child {
+  font-weight: 500;
+}
+
+.balance-row.net span:last-child {
+  font-weight: 600;
+}
+
+.positive {
+  color: #2e9c5d;
+}
+
+.negative {
+  color: #d64545;
+}
+
+/* RECENT SECTION */
+.recent-section {
+  margin-top: 20px;
+}
+
+.recent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.view-all {
+  font-size: 14px;
+  cursor: pointer;
+  color: #178f87;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.recent-item {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.recent-item:hover {
+  background: #eaf4f3;
+}
+
+.empty-text {
+  color: #777;
+}
+
+.error-text {
+  margin-top: 10px;
+  color: #d64545;
+}

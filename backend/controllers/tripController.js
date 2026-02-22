@@ -35,6 +35,12 @@ const createTrip = async (req, res) => {
 // get trips for logged-in user
 const getMyTrips = async (req, res) => {
   try {
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({
+        message: "User not authenticated",
+      });
+    }
+
     const trips = await Trip.find({
       members: req.user._id,
     }).sort({ createdAt: -1 });
@@ -43,9 +49,10 @@ const getMyTrips = async (req, res) => {
       trips,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in getMyTrips:", error);
     res.status(500).json({
       message: "Server error",
+      error: error.message,
     });
   }
 };
