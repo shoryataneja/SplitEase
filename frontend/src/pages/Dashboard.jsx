@@ -9,6 +9,8 @@ function Dashboard() {
   const [tripName, setTripName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [totalOwed, setTotalOwed] = useState(0);
+  const [totalOwe, setTotalOwe] = useState(0);
   const navigate = useNavigate();
 
   const fetchTrips = async () => {
@@ -16,6 +18,7 @@ function Dashboard() {
       setLoading(true);
       const res = await API.get("/trips");
       setTrips(res.data.trips);
+      calculateBalances(res.data.trips);
     } catch (err) {
       setError("Failed to load trips");
     } finally {
@@ -23,8 +26,42 @@ function Dashboard() {
     }
   };
 
+  const calculateBalances = async (tripsList) => {
+    let owed = 0;
+    let owe = 0;
+    const userId = localStorage.getItem("userId");
+
+    for (const trip of tripsList) {
+      try {
+        const res = await API.get(`/trips/${trip._id}`);
+        const balances = res.data.balances || [];
+        const userBalance = balances.find(b => b.userId.toString() === userId);
+        
+        if (userBalance) {
+          if (userBalance.amount > 0) {
+            owed += userBalance.amount;
+          } else if (userBalance.amount < 0) {
+            owe += Math.abs(userBalance.amount);
+          }
+        }
+      } catch (err) {
+        console.error(`Failed to fetch trip ${trip._id}:`, err);
+      }
+    }
+
+    setTotalOwed(Math.round(owed * 100) / 100);
+    setTotalOwe(Math.round(owe * 100) / 100);
+  };
+
   useEffect(() => {
     fetchTrips();
+
+    const handleTripUpdate = () => {
+      fetchTrips();
+    };
+
+    window.addEventListener('tripUpdated', handleTripUpdate);
+    return () => window.removeEventListener('tripUpdated', handleTripUpdate);
   }, []);
 
   const handleCreateTrip = async (e) => {
@@ -68,15 +105,15 @@ function Dashboard() {
             <div className="balance-summary">
               <div className="balance-item">
                 <span className="balance-label">You are owed</span>
-                <span className="balance-amount">₹0</span>
+                <span className="balance-amount">₹{totalOwed.toFixed(2)}</span>
               </div>
               <div className="balance-item">
                 <span className="balance-label">You owe</span>
-                <span className="balance-amount">₹0</span>
+                <span className="balance-amount">₹{totalOwe.toFixed(2)}</span>
               </div>
               <div className="balance-net">
                 <span className="net-label">Net Balance</span>
-                <span className="net-amount">₹0</span>
+                <span className="net-amount">₹{(totalOwed - totalOwe).toFixed(2)}</span>
               </div>
             </div>
           </div>

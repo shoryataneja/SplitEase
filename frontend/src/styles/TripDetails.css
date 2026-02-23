@@ -224,10 +224,30 @@
 }
 
 /* Expenses List */
-.expenses-list {
+.expenses-list-container {
+  max-height: 350px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.expenses-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.expenses-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.expenses-list-container::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 4px;
+}
+
+.expenses-list-container::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
 }
 
 .expense-card {
@@ -307,7 +327,7 @@
 .balance-negative {
   font-size: 15px;
   font-weight: 500;
-  color: #d97706;
+  color: #555;
 }
 
 /* Responsive */

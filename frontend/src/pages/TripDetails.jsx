@@ -72,7 +72,8 @@ function TripDetails() {
       setExpenseMessage("Expense added successfully");
       setExpenseDescription("");
       setExpenseAmount("");
-      fetchTripDetails();
+      await fetchTripDetails();
+      window.dispatchEvent(new Event('tripUpdated'));
       setTimeout(() => setExpenseMessage(""), 3000);
     } catch (err) {
       setExpenseError(err.response?.data?.message || "Failed to add expense");
@@ -198,7 +199,7 @@ function TripDetails() {
           {expenses.length === 0 ? (
             <p className="empty-message">No expenses added yet. Add your first expense above.</p>
           ) : (
-            <div className="expenses-list">
+            <div className="expenses-list-container">
               {expenses.map((expense) => (
                 <div key={expense._id} className="expense-card">
                   <div className="expense-header">
@@ -224,35 +225,21 @@ function TripDetails() {
         <div className="section balances-section">
           <h2>Balances</h2>
           {balances.length === 0 ? (
-            <p className="empty-message">All settled up</p>
+            <p className="empty-message">No balances yet</p>
           ) : (
             <div className="balances-list">
               {balances.map((balance) => {
-                const currentUserId = getCurrentUserId();
-                const isCurrentUser = balance.userId.toString() === currentUserId;
-                
+                const amount = balance.amount || balance.netBalance || 0;
                 return (
                   <div key={balance.userId} className="balance-item">
-                    {isCurrentUser ? (
-                      balance.amount > 0 ? (
-                        <span className="balance-positive">
-                          You are owed ₹{Math.abs(balance.amount)}
-                        </span>
-                      ) : (
-                        <span className="balance-negative">
-                          You owe ₹{Math.abs(balance.amount)}
-                        </span>
-                      )
+                    {amount > 0 ? (
+                      <span className="balance-positive">
+                        {balance.name} is owed ₹{Math.abs(amount).toFixed(2)}
+                      </span>
                     ) : (
-                      balance.amount > 0 ? (
-                        <span className="balance-positive">
-                          {balance.name} is owed ₹{Math.abs(balance.amount)}
-                        </span>
-                      ) : (
-                        <span className="balance-negative">
-                          {balance.name} owes ₹{Math.abs(balance.amount)}
-                        </span>
-                      )
+                      <span className="balance-negative">
+                        {balance.name} owes ₹{Math.abs(amount).toFixed(2)}
+                      </span>
                     )}
                   </div>
                 );

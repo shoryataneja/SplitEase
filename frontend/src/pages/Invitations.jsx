@@ -47,7 +47,8 @@ function Invitations() {
     try {
       setProcessingId(invitationId);
       await API.post(`/invitations/${invitationId}/accept`);
-      fetchInvitations();
+      await fetchInvitations();
+      window.dispatchEvent(new Event('tripUpdated'));
     } catch (err) {
       setError("Failed to accept invitation");
     } finally {
