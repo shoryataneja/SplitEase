@@ -18,10 +18,15 @@ function Trips() {
       setLoading(true);
       setError("");
       const res = await API.get("/trips");
-      setTrips(res.data.trips);
-      setFilteredTrips(res.data.trips);
+      setTrips(res.data.trips || []);
+      setFilteredTrips(res.data.trips || []);
     } catch (err) {
-      setError("Failed to load trips");
+      if (err.response?.status === 401) {
+        setTrips([]);
+        setFilteredTrips([]);
+      } else {
+        setError("Unable to load trips right now.");
+      }
     } finally {
       setLoading(false);
     }
@@ -87,13 +92,10 @@ function Trips() {
 
         {loading ? (
           <p className="trips-loading">Loading trips...</p>
-        ) : error ? (
-          <p className="trips-error">{error}</p>
         ) : trips.length === 0 ? (
           <div className="trips-empty">
-            <div className="empty-icon">🚀</div>
-            <h2>Start your first shared journey</h2>
-            <p>Create a trip to split expenses with friends and family</p>
+            <h2>No trips yet</h2>
+            <p>Create your first trip to get started.</p>
             <button
               className="empty-create-btn"
               onClick={() => navigate("/dashboard")}
@@ -101,6 +103,8 @@ function Trips() {
               Create Trip
             </button>
           </div>
+        ) : error ? (
+          <p className="trips-error">{error}</p>
         ) : (
           <>
             <div className="trips-stats">

@@ -154,23 +154,18 @@
   margin: 0 auto;
 }
 
-.empty-icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-}
-
 .trips-empty h2 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #333;
   margin: 0 0 12px 0;
   letter-spacing: -0.3px;
 }
 
 .trips-empty p {
   font-size: 15px;
-  color: #666;
+  color: #777;
   margin: 0 0 28px 0;
   line-height: 1.5;
 }
