@@ -19,7 +19,13 @@ function Invitations() {
       setInvitations(res.data.invitations || []);
       setFilteredInvitations(res.data.invitations || []);
     } catch (err) {
-      setError("Failed to load invitations");
+      if (err.response?.status === 401) {
+        setInvitations([]);
+        setFilteredInvitations([]);
+        setError("");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -93,13 +99,13 @@ function Invitations() {
 
         {loading ? (
           <p className="invitations-loading">Loading invitations...</p>
-        ) : error ? (
-          <p className="invitations-error">{error}</p>
         ) : invitations.length === 0 ? (
           <div className="invitations-empty">
             <h2>No invitations yet</h2>
-            <p>When someone invites you to a trip, it will appear here.</p>
+            <p>You don't have any pending invitations yet.</p>
           </div>
+        ) : error ? (
+          <p className="invitations-error">{error}</p>
         ) : (
           <>
             <div className="invitations-stats">
