@@ -4,12 +4,13 @@ const Trip = require("../models/Trip");
 // add expense controller
 const addExpense = async (req, res) => {
   try {
-    const { description, amount, tripId, splitAmong } = req.body;
+    const { tripId } = req.params;
+    const { description, amount, splitAmong } = req.body;
 
     // 1. validate input
-    if (!description || !amount || !tripId) {
+    if (!description || !amount) {
       return res.status(400).json({
-        message: "Description, amount and tripId are required",
+        message: "Description and amount are required",
       });
     }
 
@@ -22,7 +23,11 @@ const addExpense = async (req, res) => {
     }
 
     // 3. check if user is part of the trip
-    if (!trip.members.includes(req.user._id)) {
+    const isMember = trip.members.some(
+      (member) => member.toString() === req.user._id.toString()
+    );
+    
+    if (!isMember) {
       return res.status(403).json({
         message: "You are not a member of this trip",
       });
@@ -47,9 +52,10 @@ const addExpense = async (req, res) => {
       expense,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in addExpense:", error);
     res.status(500).json({
       message: "Server error",
+      error: error.message,
     });
   }
 };

@@ -1,157 +1,266 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import DashboardNavbar from "../components/DashboardNavbar";
 import API from "../services/api";
+import "../styles/TripDetails.css";
 
 function TripDetails() {
   const { tripId } = useParams();
-
+  const [trip, setTrip] = useState(null);
   const [expenses, setExpenses] = useState([]);
-  const [balances, setBalances] = useState({});
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
+  const [balances, setBalances] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
+  // Invite member state
   const [inviteEmail, setInviteEmail] = useState("");
-const [inviteMessage, setInviteMessage] = useState("");
+  const [inviteMessage, setInviteMessage] = useState("");
+  const [inviteError, setInviteError] = useState("");
+  
+  // Add expense state
+  const [expenseDescription, setExpenseDescription] = useState("");
+  const [expenseAmount, setExpenseAmount] = useState("");
+  const [expenseMessage, setExpenseMessage] = useState("");
+  const [expenseError, setExpenseError] = useState("");
 
-
-  // 🔹 Fetch expenses + balances
-  const fetchTripData = async () => {
+  const fetchTripDetails = async () => {
     try {
+      setLoading(true);
       setError("");
-
-      const expensesRes = await API.get(`/expenses/trip/${tripId}`);
-      setExpenses(expensesRes.data.expenses);
-
-      const balancesRes = await API.get(
-        `/expenses/trip/${tripId}/balances`
-      );
-      setBalances(balancesRes.data.balances);
-    } catch {
-      setError("Failed to load trip data");
+      const res = await API.get(`/trips/${tripId}`);
+      setTrip(res.data.trip);
+      setExpenses(res.data.expenses || []);
+      setBalances(res.data.balances || []);
+    } catch (err) {
+      setError("Failed to load trip details");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchTripData();
+    fetchTripDetails();
   }, [tripId]);
 
-  // 🔹 Add Expense
-  const handleAddExpense = async (e) => {
+  const handleInviteMember = async (e) => {
     e.preventDefault();
-
-    if (!description || !amount) return;
+    if (!inviteEmail.trim()) return;
 
     try {
-      await API.post("/expenses", {
-        description,
-        amount: Number(amount),
-        tripId,
-      });
-
-      setDescription("");
-      setAmount("");
-
-      fetchTripData();
-    } catch {
-      setError("Failed to add expense");
+      setInviteError("");
+      setInviteMessage("");
+      await API.post(`/trips/${tripId}/invite`, { email: inviteEmail });
+      setInviteMessage("Invitation sent successfully");
+      setInviteEmail("");
+      setTimeout(() => setInviteMessage(""), 3000);
+    } catch (err) {
+      setInviteError(err.response?.data?.message || "Failed to send invitation");
     }
   };
 
-  const handleSendInvite = async (e) => {
-  e.preventDefault();
+  const handleAddExpense = async (e) => {
+    e.preventDefault();
+    if (!expenseDescription.trim() || !expenseAmount) return;
 
-  if (!inviteEmail) return;
+    try {
+      setExpenseError("");
+      setExpenseMessage("");
+      await API.post(`/trips/${tripId}/expenses`, {
+        description: expenseDescription,
+        amount: parseFloat(expenseAmount),
+      });
+      setExpenseMessage("Expense added successfully");
+      setExpenseDescription("");
+      setExpenseAmount("");
+      fetchTripDetails();
+      setTimeout(() => setExpenseMessage(""), 3000);
+    } catch (err) {
+      setExpenseError(err.response?.data?.message || "Failed to add expense");
+    }
+  };
 
-  try {
-    const res = await API.post("/invitations", {
-      tripId,
-      email: inviteEmail,
-    });
+  const getCurrentUserId = () => {
+    // Get current user ID from token or API
+    return localStorage.getItem("userId");
+  };
 
-    setInviteMessage(res.data.message);
-    setInviteEmail("");
-  } catch {
-    setInviteMessage("Failed to send invitation");
+  if (loading) {
+    return (
+      <div className="trip-details-page">
+        <DashboardNavbar />
+        <div className="trip-details-container">
+          <p className="loading-text">Loading trip details...</p>
+        </div>
+      </div>
+    );
   }
-};
 
+  if (error || !trip) {
+    return (
+      <div className="trip-details-page">
+        <DashboardNavbar />
+        <div className="trip-details-container">
+          <p className="error-text">{error || "Trip not found"}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const currentUserId = getCurrentUserId();
 
   return (
-    <div>
-      <h2>Trip Details</h2>
+    <div className="trip-details-page">
+      <DashboardNavbar />
 
-      {error && <p>{error}</p>}
+      <div className="trip-details-container">
+        {/* Trip Header */}
+        <div className="trip-header">
+          <h1>{trip.name}</h1>
+          <div className="trip-meta">
+            <span>Created {new Date(trip.createdAt).toLocaleDateString()}</span>
+            <span className="meta-divider">•</span>
+            <span>{trip.members?.length || 0} members</span>
+          </div>
+        </div>
 
+        {/* Members Section */}
+        <div className="section members-section">
+          <h2>Members</h2>
+          {trip.members && trip.members.length > 0 ? (
+            <div className="members-list">
+              {trip.members.map((member) => (
+                <div key={member._id} className="member-item">
+                  <div className="member-avatar">
+                    {member.name?.charAt(0).toUpperCase() || "?"}
+                  </div>
+                  <span className="member-name">
+                    {member.name}
+                    {member._id === currentUserId && <span className="you-badge"> (You)</span>}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="empty-message">No members yet</p>
+          )}
+        </div>
 
-      <h3>Send Invitation</h3>
-<form onSubmit={handleSendInvite}>
-  <input
-    type="email"
-    placeholder="User email"
-    value={inviteEmail}
-    onChange={(e) => setInviteEmail(e.target.value)}
-  />
-  <button type="submit">Send Invite</button>
-</form>
+        {/* Invite Member Section */}
+        <div className="section invite-section">
+          <h2>Invite Member</h2>
+          <form onSubmit={handleInviteMember} className="invite-form">
+            <input
+              type="email"
+              placeholder="Enter email address"
+              value={inviteEmail}
+              onChange={(e) => setInviteEmail(e.target.value)}
+              className="invite-input"
+            />
+            <button type="submit" className="invite-btn">
+              Send Invite
+            </button>
+          </form>
+          {inviteMessage && <p className="success-message">{inviteMessage}</p>}
+          {inviteError && <p className="error-message">{inviteError}</p>}
+        </div>
 
-{inviteMessage && <p>{inviteMessage}</p>}
+        {/* Add Expense Section */}
+        <div className="section add-expense-section">
+          <h2>Add Expense</h2>
+          <form onSubmit={handleAddExpense} className="expense-form">
+            <input
+              type="text"
+              placeholder="Description"
+              value={expenseDescription}
+              onChange={(e) => setExpenseDescription(e.target.value)}
+              className="expense-input"
+            />
+            <input
+              type="number"
+              placeholder="Amount"
+              value={expenseAmount}
+              onChange={(e) => setExpenseAmount(e.target.value)}
+              className="expense-input"
+              step="0.01"
+              min="0"
+            />
+            <button type="submit" className="expense-btn">
+              Add Expense
+            </button>
+          </form>
+          {expenseMessage && <p className="success-message">{expenseMessage}</p>}
+          {expenseError && <p className="error-message">{expenseError}</p>}
+        </div>
 
-<hr />
+        {/* Expense List */}
+        <div className="section expenses-section">
+          <h2>Expenses</h2>
+          {expenses.length === 0 ? (
+            <p className="empty-message">No expenses added yet. Add your first expense above.</p>
+          ) : (
+            <div className="expenses-list">
+              {expenses.map((expense) => (
+                <div key={expense._id} className="expense-card">
+                  <div className="expense-header">
+                    <h3 className="expense-description">{expense.description}</h3>
+                    <span className="expense-amount">₹{expense.amount}</span>
+                  </div>
+                  <p className="expense-paid-by">
+                    Paid by {expense.paidBy?.name || "Unknown"}
+                  </p>
+                  <p className="expense-date">
+                    {new Date(expense.createdAt).toLocaleDateString()}
+                  </p>
+                  <p className="expense-split">
+                    Split equally among {trip.members?.length || 0} members
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
-
-      {/* 🔥 Add Expense Section */}
-      <h3>Add Expense</h3>
-      <form onSubmit={handleAddExpense}>
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <br />
-
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <br />
-
-        <button type="submit">Add Expense</button>
-      </form>
-
-      <hr />
-
-      {/* 🔥 Expenses List */}
-      <h3>Expenses</h3>
-      {expenses.length === 0 ? (
-        <p>No expenses yet</p>
-      ) : (
-        <ul>
-          {expenses.map((expense) => (
-            <li key={expense._id}>
-              {expense.description} — ₹{expense.amount}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <hr />
-
-      {/* 🔥 Balances */}
-      <h3>Balances</h3>
-      {Object.keys(balances).length === 0 ? (
-        <p>No balances yet</p>
-      ) : (
-        <ul>
-          {Object.values(balances).map((user, index) => (
-            <li key={index}>
-              {user.name}: {user.balance.toFixed(2)}
-            </li>
-          ))}
-        </ul>
-      )}
+        {/* Balance Summary */}
+        <div className="section balances-section">
+          <h2>Balances</h2>
+          {balances.length === 0 ? (
+            <p className="empty-message">All settled up</p>
+          ) : (
+            <div className="balances-list">
+              {balances.map((balance) => {
+                const currentUserId = getCurrentUserId();
+                const isCurrentUser = balance.userId.toString() === currentUserId;
+                
+                return (
+                  <div key={balance.userId} className="balance-item">
+                    {isCurrentUser ? (
+                      balance.amount > 0 ? (
+                        <span className="balance-positive">
+                          You are owed ₹{Math.abs(balance.amount)}
+                        </span>
+                      ) : (
+                        <span className="balance-negative">
+                          You owe ₹{Math.abs(balance.amount)}
+                        </span>
+                      )
+                    ) : (
+                      balance.amount > 0 ? (
+                        <span className="balance-positive">
+                          {balance.name} is owed ₹{Math.abs(balance.amount)}
+                        </span>
+                      ) : (
+                        <span className="balance-negative">
+                          {balance.name} owes ₹{Math.abs(balance.amount)}
+                        </span>
+                      )
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
