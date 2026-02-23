@@ -12,18 +12,39 @@ function Login() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Login form submitted");
+    console.log("Email:", email);
+    console.log("Password length:", password.length);
 
     try {
+      console.log("Sending login request...");
       const res = await API.post("/auth/login", {
         email,
         password,
       });
 
+      console.log("Login response:", res.data);
+
       // store token
-      localStorage.setItem("token", res.data.token);
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.userId);
+        console.log("Token stored successfully");
+        console.log("Token value:", res.data.token.substring(0, 20) + "...");
+        console.log("Verify token in localStorage:", localStorage.getItem("token") ? "✓ Token exists" : "✗ Token missing");
+      } else {
+        console.error("No token in response!");
+        setMessage("Login failed: No token received");
+        return;
+      }
+      
+      console.log("Token stored, navigating to dashboard");
       navigate("/dashboard");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Login failed");
+      console.error("Login error:", error);
+      console.error("Error response:", error.response?.data);
+      console.error("Error status:", error.response?.status);
+      setMessage(error.response?.data?.message || "Login failed. Please try again.");
     }
   };
 

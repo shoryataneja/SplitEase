@@ -14,18 +14,36 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Signup form submitted");
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Password length:", password.length);
 
     try {
+      console.log("Sending signup request...");
       const res = await API.post("/auth/signup", {
         name,
         email,
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
-navigate("/dashboard");
+      console.log("Signup response:", res.data);
+
+      // Check if token exists in response
+      if (res.data.userId) {
+        localStorage.setItem("userId", res.data.userId);
+        console.log("User created, navigating to login");
+        navigate("/login");
+      } else {
+        console.error("No userId in response");
+        setMessage("Signup successful! Please login.");
+        setTimeout(() => navigate("/login"), 2000);
+      }
     } catch (error) {
-      setMessage(error.response?.data?.message || "Signup failed");
+      console.error("Signup error:", error);
+      console.error("Error response:", error.response?.data);
+      console.error("Error status:", error.response?.status);
+      setMessage(error.response?.data?.message || "Signup failed. Please try again.");
     }
   };
 
