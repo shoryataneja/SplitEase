@@ -1,0 +1,348 @@
+/* Profile.css */
+
+.profile-page {
+  min-height: 100vh;
+  background: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.profile-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 45px 30px;
+}
+
+.loading-text {
+  text-align: center;
+  color: #777;
+  font-size: 15px;
+  padding: 60px 20px;
+}
+
+/* Messages */
+.success-message {
+  padding: 12px 16px;
+  background: #f0fdf4;
+  color: #16a34a;
+  border-radius: 10px;
+  font-size: 14px;
+  border: 1px solid #bbf7d0;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.error-message {
+  padding: 12px 16px;
+  background: #fef2f2;
+  color: #dc2626;
+  border-radius: 10px;
+  font-size: 14px;
+  border: 1px solid #fecaca;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Card 1 - Profile Information */
+.profile-card {
+  background: white;
+  padding: 40px 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #1F8A8A;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 auto 20px;
+}
+
+.user-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.4px;
+}
+
+.user-email {
+  font-size: 15px;
+  color: #777;
+  margin: 0 0 32px 0;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.detail-line {
+  font-size: 15px;
+  color: #333;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.detail-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #777;
+  margin-right: 8px;
+}
+
+/* Card 2 - Account Settings */
+.settings-card {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.settings-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.3px;
+}
+
+.settings-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.settings-btn {
+  flex: 1;
+  padding: 13px 24px;
+  background: #1F8A8A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.settings-btn:hover {
+  background: #178f87;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(31, 138, 138, 0.25);
+}
+
+/* Edit Name Section */
+.edit-name-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.name-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.name-input:focus {
+  border-color: #1F8A8A;
+  box-shadow: 0 0 0 3px rgba(31, 138, 138, 0.08);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.save-btn,
+.cancel-btn {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.save-btn {
+  background: #1F8A8A;
+  color: white;
+  border: none;
+}
+
+.save-btn:hover {
+  background: #178f87;
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.cancel-btn:hover {
+  background: #e9ecef;
+}
+
+/* Password Form */
+.password-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding: 13px 45px 13px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.password-input:focus {
+  border-color: #1F8A8A;
+  box-shadow: 0 0 0 3px rgba(31, 138, 138, 0.08);
+}
+
+.eye-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.eye-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: #999;
+  transition: fill 0.3s;
+}
+
+.eye-toggle:hover svg {
+  fill: #1F8A8A;
+}
+
+.submit-password-btn {
+  padding: 13px 26px;
+  background: #1F8A8A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-password-btn:hover {
+  background: #178f87;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(31, 138, 138, 0.25);
+}
+
+/* Card 3 - Danger Zone */
+.danger-card {
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.danger-warning {
+  font-size: 15px;
+  color: #333;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.delete-account-btn {
+  width: 100%;
+  padding: 13px 26px;
+  background: white;
+  color: #dc2626;
+  border: 2px solid #dc2626;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.delete-account-btn:hover {
+  background: #fef2f2;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 30px 20px;
+  }
+
+  .profile-card,
+  .settings-card,
+  .danger-card {
+    padding: 28px 24px;
+  }
+
+  .avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+  }
+
+  .user-name {
+    font-size: 22px;
+  }
+
+  .settings-actions {
+    flex-direction: column;
+  }
+
+  .settings-btn {
+    width: 100%;
+  }
+
+  .detail-line {
+    text-align: center;
+  }
+}
